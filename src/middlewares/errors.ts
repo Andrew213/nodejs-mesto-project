@@ -5,6 +5,7 @@ import { serverErrors } from "../errors/server";
 export default (err:Error, _req:Request, res:Response, _next:NextFunction) => {
   if (err instanceof CustomError) {
     const { statusCode, message } = err;
+
     res.status(statusCode).send({ message });
     return;
   }

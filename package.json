@@ -11,10 +11,11 @@
   },
   "author": "Kochanov Andrei",
   "license": "ISC",
-"dependencies": {
+  "dependencies": {
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.3",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "express-winston": "^4.2.0",
     "jsonwebtoken": "^9.0.2",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mongoose": "^5.11.97",

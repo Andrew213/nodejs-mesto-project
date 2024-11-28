@@ -12,6 +12,7 @@ import cardsRouter from './routes/cards';
 import userRouter from './routes/users';
 // import authRouter from './routes/auth';
 import { errorLogger, requestLogger } from "./middlewares/logger";
+import { serverErrors } from "./errors/server";
 
 const server: Express = express();
 const port = 3000;
@@ -24,7 +25,7 @@ export interface CustomRequest extends Request{
 }
 server.use((req: CustomRequest, _res: Response, next: NextFunction) => {
   req.user = {
-    _id: '674845975d2ed0e7be2aca65', // вставьте сюда _id созданного в предыдущем пункте пользователя
+    _id: '674845915d2ed0e7be2aca63', // вставьте сюда _id созданного в предыдущем пункте пользователя
   };
 
   next();
@@ -35,6 +36,9 @@ server.use(requestLogger);
 server.use('/cards', cardsRouter);
 server.use('/users', userRouter);
 
+server.use((_req: Request, res: Response) => {
+  res.status(404).json({ message: serverErrors[404] });
+});
 server.use(errorLogger); // Порядок важен!
 server.use(errors());
 
