@@ -14,7 +14,7 @@ import userRouter from './routes/users';
 import { errorLogger, requestLogger } from "./middlewares/logger";
 
 const server: Express = express();
-const port = 5000;
+const port = 3000;
 
 server.use(cors());
 server.use(express.json());

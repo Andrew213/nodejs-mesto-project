@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Types } from 'mongoose';
-import { CardsModel } from '../models/card';
+import { CardsModel } from '../models/cards';
 import { BadRequestError } from '../middlewares/BadRequest';
 import { CustomRequest } from '../app';
 import { cardsErrors } from '../errors/cards';
