@@ -2,9 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import { Types } from 'mongoose';
 import { CardsModel } from '../models/cards';
 import { BadRequestError } from '../middlewares/BadRequest';
-import { CustomRequest } from '../app';
 import { cardsErrors } from '../errors/cards';
 import { serverErrors } from '../errors/server';
+import { AuthContext } from '../types';
 
 export const getCards = async (_req: Request, res: Response, next: NextFunction) => {
   try {
@@ -15,12 +15,12 @@ export const getCards = async (_req: Request, res: Response, next: NextFunction)
   }
 };
 
-export const createCard = async (req: CustomRequest, res: Response, next: NextFunction) => {
+export const createCard = async (req: Request, res: Response<unknown, AuthContext>, next: NextFunction) => {
   try {
     const {
       name, link,
     } = req.body;
-    const owner = req.user?._id;
+    const owner = res.locals.user?._id;
     // const tokenHeader = req.headers.authorization!.split(' ')[1];
     // const owner = jwt.verify(tokenHeader, 'some-secret-key');
     const card = new CardsModel({
@@ -56,13 +56,15 @@ export const deleteCardById = async (req: Request<{id: string}>, res: Response, 
     }
     res.json({ ok: 'Удалено' });
   } catch (error) {
-    next(new BadRequestError({ code: 500, message: serverErrors[500], context: [error] }));
+    next(new BadRequestError({
+      code: 500, message: serverErrors[500], context: [error], logging: true,
+    }));
   }
 };
 
-export const putLike = async (req: CustomRequest, res: Response, next: NextFunction) => {
+export const putLike = async (req: Request, res: Response<unknown, AuthContext>, next: NextFunction) => {
   try {
-    const userId = req.user!._id!;
+    const userId = res.locals.user!._id!;
     const cardId = req.params.id;
     if (!cardId || !userId) {
       next(new BadRequestError({ code: 400, message: cardsErrors[400] }));

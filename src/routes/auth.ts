@@ -2,20 +2,22 @@ import {
   Router,
 } from "express";
 import { celebrate, Joi } from "celebrate";
-import { signIn, signUp } from "../controllers/auth";
+import { createUser, login } from "../controllers/users";
 
 const router = Router();
 
-router.post(
-  '/signup',
-  celebrate({
-    body: Joi.object().keys({
-      password: Joi.string().required(),
-      email: Joi.string().required(),
-    }).unknown(true),
+router.post('/signup', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
   }),
-  signUp,
-);
-router.post('/signin', signIn);
+}), createUser);
+
+router.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
+}), login);
 
 export default router;
