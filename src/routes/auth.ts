@@ -8,14 +8,14 @@ const router = Router();
 
 router.post('/signup', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
 }), createUser);
 
 router.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
 }), login);

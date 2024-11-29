@@ -1,5 +1,7 @@
+import 'dotenv/config';
 import express, {
   Express,
+  NextFunction,
   Request,
   Response,
 } from "express";
@@ -14,7 +16,7 @@ import { errorLogger, requestLogger } from "./middlewares/logger";
 import { serverErrors } from "./errors/server";
 
 const server: Express = express();
-const port = 3000;
+const port = process.env.PORT;
 
 server.use(cors());
 server.use(express.json());
@@ -25,8 +27,8 @@ server.use('/cards', cardsRouter);
 server.use('/users', userRouter);
 server.use(authRouter);
 
-server.use((_req: Request, res: Response) => {
-  res.status(404).json({ message: serverErrors[404] });
+server.use((_req: Request, _res: Response, next: NextFunction) => {
+  next(serverErrors[404]);
 });
 server.use(errorLogger); // Порядок важен!
 server.use(errors());

@@ -18,6 +18,13 @@ const cardSchema: Schema<ICard> = new Schema({
   link: {
     type: Schema.Types.String,
     required: true,
+    validate: {
+      validator(v) {
+        const avatarRegex = /^(https?:\/\/)(www)?(?!www\.)([a-zA-Z0-9.-]+)(\.[a-z]{2,6})(\/[a-zA-Z0-9.\-_~:/?#[\]@!$&'()*+,;=]*)?(#[a-zA-Z0-9._~:\-/?#[\]@!$&'()*+,;=]*)?$/;
+        return avatarRegex.test(v);
+      },
+      message: (props) => `${props.value} невалидный URL`,
+    },
   },
   owner: {
     required: true,
@@ -26,7 +33,6 @@ const cardSchema: Schema<ICard> = new Schema({
   },
   likes: {
     type: [Schema.Types.ObjectId],
-    default: [],
     ref: 'user',
   },
   createdAt: {

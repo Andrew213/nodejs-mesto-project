@@ -20,12 +20,19 @@ router.get('/me', celebrate({
   headers: Joi.object({
     authorization: Joi.string().required(),
   }).unknown(true),
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    about: Joi.string().required(),
+  }),
 }), auth, getUser);
 
 router.get('/:id', celebrate({
   headers: Joi.object({
     authorization: Joi.string().required(),
   }).unknown(true),
+  params: Joi.object().keys({
+    id: Joi.string().alphanum().required(),
+  }),
 }), auth, getUserById);
 
 router.patch('/me', celebrate({

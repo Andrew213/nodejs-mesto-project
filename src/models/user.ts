@@ -35,7 +35,7 @@ const userSchema: Schema<IUser, UserModelInt> = new Schema({
         const avatarRegex = /^(https?:\/\/)(www)?(?!www\.)([a-zA-Z0-9.-]+)(\.[a-z]{2,6})(\/[a-zA-Z0-9.\-_~:/?#[\]@!$&'()*+,;=]*)?(#[a-zA-Z0-9._~:\-/?#[\]@!$&'()*+,;=]*)?$/;
         return avatarRegex.test(v);
       },
-      message: (props) => `${props.value} невалидный URL аватара`,
+      message: (props) => `${props.value} невалидный URL`,
     },
   },
   password: {

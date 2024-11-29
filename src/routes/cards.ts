@@ -11,12 +11,20 @@ const router = Router();
 router.get('/', celebrate({
   headers: Joi.object({
     authorization: Joi.string().required(),
-  }),
+  }).unknown(true),
 }), auth, getCards);
 
-router.get('/:id', auth, getCardById);
+router.get('/:id', celebrate({
+  params: Joi.object().keys({
+    id: Joi.string().alphanum().required(),
+  }),
+}), auth, getCardById);
 
-router.delete('/:id', auth, protectCard, deleteCardById);
+router.delete('/:id', celebrate({
+  params: Joi.object().keys({
+    id: Joi.string().alphanum().required(),
+  }),
+}), auth, protectCard, deleteCardById);
 
 router.post('/', auth, celebrate({
   body: Joi.object().keys({
@@ -31,12 +39,18 @@ router.post('/', auth, celebrate({
 router.put('/:id/likes', celebrate({
   headers: Joi.object({
     authorization: Joi.string().required(),
+  }).unknown(true),
+  params: Joi.object().keys({
+    id: Joi.string().alphanum().required(),
   }),
 }), auth, putLike);
 
 router.delete('/:id/likes', celebrate({
   headers: Joi.object({
     authorization: Joi.string().required(),
+  }).unknown(true),
+  params: Joi.object().keys({
+    id: Joi.string().alphanum().required(),
   }),
 }), auth, deleteLike);
 
